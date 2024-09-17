@@ -1,6 +1,12 @@
 # FIFO_UVM
 Using Universal Verification Methodology (UVM) to verify First In First Out (FIFO) module.
 
+## UVM Hierarchical
+![UVM_FIFO](https://github.com/jorjorrrrrr/FIFO_UVM/blob/main/figures/UVM_FIFO.png)
+
+## Synchronous FIFO
+![UVM_FIFO](https://github.com/jorjorrrrrr/FIFO_UVM/blob/main/figures/fifo.png)
+
 ## File Description
 ```
 ├── fifo_agent.sv
