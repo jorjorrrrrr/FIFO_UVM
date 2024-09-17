@@ -5,7 +5,7 @@ Using Universal Verification Methodology (UVM) to verify First In First Out (FIF
 ![UVM_FIFO](https://github.com/jorjorrrrrr/FIFO_UVM/blob/main/figures/UVM_FIFO.png)
 
 ## Synchronous FIFO
-![UVM_FIFO](https://github.com/jorjorrrrrr/FIFO_UVM/blob/main/figures/fifo.png)
+![sync_fifo](https://github.com/jorjorrrrrr/FIFO_UVM/blob/main/figures/sync_fifo.png)
 
 ## File Description
 ```
