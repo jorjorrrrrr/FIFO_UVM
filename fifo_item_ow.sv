@@ -5,7 +5,7 @@ class fifo_item_ow extends fifo_item;
 
     constraint limit_wr_n {
         wr_n == 1'b0;
-        //rd_n == 1'b1;
+        rd_n == 1'b1;
     }
     
     function new(string name = "fifo_item_ow");
