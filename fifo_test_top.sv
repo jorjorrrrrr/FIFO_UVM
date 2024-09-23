@@ -7,13 +7,11 @@ bit SystemClock = 0;
 
 fifo_io ff_io (SystemClock);
 
-//test top_test (ff_io);
-
 fifo_dut dut (
     .clk    (SystemClock),  // Clock Source
     .rst_n  (ff_io.rst_n),  // Active low asynchronous reset
-    .wr_n   (ff_io.wr_n),   // Active low Write Enable
-    .rd_n   (ff_io.rd_n),   // Active low Read Enable
+    .wen    (ff_io.wen),    // Active High Write Enable
+    .ren    (ff_io.ren),    // Active High Read Enable
     .din    (ff_io.din),    // Data in
     .dout   (ff_io.dout),   // Data out
     .full   (ff_io.full),   // FIFO is empty
@@ -22,7 +20,6 @@ fifo_dut dut (
 
 initial begin
     $fsdbDumpvars;
-    $fsdbDumpMDA;
 end
 
 initial begin

@@ -37,17 +37,17 @@ class fifo_monitor extends uvm_monitor;
         repeat(8) @(vif.cb);  // for reset
         forever begin
             tr.din  = vif.din;
-            tr.wr_n = vif.wr_n;
-            tr.rd_n = vif.rd_n;
+            tr.wen = vif.wen;
+            tr.ren = vif.ren;
             tr.dout = vif.dout;
             tr.empty = vif.empty;
             tr.full  = vif.full;
             
             @(vif.cb);
-            if (tr.rd_n == 0) begin
+            if (tr.ren) begin
                 `uvm_info("READ_DATA", {"\n", tr.sprint()}, UVM_MEDIUM);
             end
-            else if (tr.wr_n == 0) begin
+            else if (tr.wen) begin
                 `uvm_info("SEND_DATA", {"\n", tr.sprint()}, UVM_MEDIUM);
             end
             analysis_port.write(tr);

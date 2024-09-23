@@ -3,8 +3,8 @@ class fifo_item_ow extends fifo_item;
     `uvm_object_utils(fifo_item_ow)
 
     constraint limit_wr_n {
-        wr_n == 1'b0;
-        rd_n == 1'b1;
+        wen == 1'b1;
+        ren == 1'b0;
     }
     
     function new(string name = "fifo_item_ow");

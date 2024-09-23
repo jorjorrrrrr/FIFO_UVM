@@ -3,7 +3,7 @@
 // Module Name  : Synchronous FIFO (using pointer comparison)
 // Author       : jorjor
 // Company      : NKUST NCLAB
-// Created Date : 2024.07.29
+// Created Date : 2024.09.23
 //
 // ======================================================================
 
@@ -15,8 +15,8 @@ module fifo_dut #(
 ) (
     input                           clk,        // Clock Source
     input                           rst_n,      // Active low asynchronous reset
-    input                           wr_n,       // Active low Write Enable
-    input                           rd_n,       // Active low Read Enable
+    input                           wen,        // Active high Write Enable
+    input                           ren,        // Active high Read Enable
     input       [DATA_WIDTH-1:0]    din,        // Data in
     output reg  [DATA_WIDTH-1:0]    dout,       // Data out
     output reg                      empty,      // FIFO is empty
@@ -46,7 +46,7 @@ always @(posedge clk or negedge rst_n) begin
         write_ptr   <= 0;
     end
     else begin
-        if (!rd_n) begin
+        if (ren) begin
             if (!empty_w) begin
                 if (read_ptr == FIFO_DEPTH-1) begin
                     read_ptr <= 0;
@@ -56,7 +56,7 @@ always @(posedge clk or negedge rst_n) begin
                 end
             end
         end
-        else if (!wr_n) begin
+        else if (wen) begin
             if (!full_w) begin
                 if (write_ptr == FIFO_DEPTH-1) begin
                     write_ptr <= 0;
@@ -78,7 +78,7 @@ always @(posedge clk or negedge rst_n) begin
     end
     else begin
         // Write data when wr_n is asserted and the fifo_mem is not full
-        if ((rd_n) && (!wr_n) && (!full_w)) begin
+        if ((!ren) && wen && (!full_w)) begin
             fifo_mem[write_ptr] <= din;
         end
     end
@@ -112,11 +112,12 @@ always @(posedge clk or negedge rst_n) begin
     else begin
         empty <= empty_w; 
         full  <= full_w;
-        if ((!rd_n) && (!empty_w)) begin
+        // if fifo_mem is not empty and ren is asserted, then deliver the data
+        if (ren && (!empty_w)) begin
             dout <= fifo_mem[read_ptr];
         end
         else begin
-            dout <= 16'hx;
+            dout <= 16'hz;
         end
     end
 end

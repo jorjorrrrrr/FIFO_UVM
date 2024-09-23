@@ -54,7 +54,7 @@ class fifo_scoreboard extends uvm_scoreboard;
     endtask: run_phase
 
     virtual task compare(fifo_item tr);
-        if (!tr.rd_n) begin    // Assert to read
+        if (tr.ren) begin    // Assert to read
             `uvm_info("TOTAL_COMPARE", {"\n", tr.sprint()}, UVM_MEDIUM);
             if (count_write == count_read) begin    // underflow occur
                 if (tr.empty == 1) begin
@@ -74,7 +74,7 @@ class fifo_scoreboard extends uvm_scoreboard;
                 count_read++;
             end
         end
-        else if (!tr.wr_n) begin    // Assert to write
+        else if (tr.wen) begin    // Assert to write
             if (count_write == count_read+16) begin    // overflow occur
                 `uvm_info("TOTAL_COMPARE", {"\n", tr.sprint()}, UVM_MEDIUM);
                 if (tr.full == 1) begin

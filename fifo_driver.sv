@@ -35,12 +35,9 @@ class fifo_driver extends uvm_driver #(fifo_item);
     endtask: run_phase
 
     virtual task drive(fifo_item tr);
-        vif.cb.wr_n <= tr.wr_n;
-        vif.cb.rd_n <= tr.rd_n;
+        vif.cb.wen <= tr.wen;
+        vif.cb.ren <= tr.ren;
         vif.cb.din  <= tr.din;
-        tr.dout = vif.dout;
-        tr.full = vif.full;
-        tr.empty = vif.empty;
         @(vif.cb);
     endtask: drive
 
