@@ -61,7 +61,7 @@ class test_only_write_inst extends test_base;
 
 endclass: test_only_write_inst
 
-class test_times_100_seq extends test_base;
+class test_times_10000_seq extends test_base;
 
     `uvm_component_utils(test_times_100_seq);
 
@@ -73,8 +73,8 @@ class test_times_100_seq extends test_base;
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         `uvm_info("TRACE", $sformatf("%m"), UVM_HIGH);
-        uvm_config_db#(int)::set(this, "env.f_agt.sqr.fifo_sequence", "item_times", 100);
-        uvm_config_db#(int)::set(this, "env.sb", "item_times", 100);
+        uvm_config_db#(int)::set(this, "env.f_agt.sqr.fifo_sequence", "item_times", 10000);
+        uvm_config_db#(int)::set(this, "env.sb", "item_times", 10000);
     endfunction: build_phase
 
 endclass: test_times_100_seq
