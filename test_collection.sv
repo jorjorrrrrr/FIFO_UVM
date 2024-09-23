@@ -63,7 +63,7 @@ endclass: test_only_write_inst
 
 class test_times_10000_seq extends test_base;
 
-    `uvm_component_utils(test_times_100_seq);
+    `uvm_component_utils(test_times_10000_seq);
 
     function new(string name, uvm_component parent);
         super.new(name, parent);
@@ -77,6 +77,6 @@ class test_times_10000_seq extends test_base;
         uvm_config_db#(int)::set(this, "env.sb", "item_times", 10000);
     endfunction: build_phase
 
-endclass: test_times_100_seq
+endclass: test_times_10000_seq
 
 
