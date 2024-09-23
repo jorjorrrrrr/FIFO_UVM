@@ -1,7 +1,6 @@
 class fifo_item_ow extends fifo_item;
 
     `uvm_object_utils(fifo_item_ow)
-    
 
     constraint limit_wr_n {
         wr_n == 1'b0;

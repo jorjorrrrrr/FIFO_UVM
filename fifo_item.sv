@@ -3,9 +3,9 @@ class fifo_item extends uvm_sequence_item;
     rand bit [7:0]  din;
     rand bit        wr_n;
     rand bit        rd_n;
-    bit             under_flow;
-    bit             over_flow;
-    logic    [7:0]  dout;
+    bit             empty;
+    bit             full;
+    bit      [7:0]  dout;
 
     `uvm_object_utils_begin(fifo_item)
         `uvm_field_int(din, UVM_ALL_ON);

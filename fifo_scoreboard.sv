@@ -57,11 +57,11 @@ class fifo_scoreboard extends uvm_scoreboard;
         if (!tr.rd_n) begin    // Assert to read
             `uvm_info("TOTAL_COMPARE", {"\n", tr.sprint()}, UVM_MEDIUM);
             if (count_write == count_read) begin    // underflow occur
-                if (tr.under_flow == 1) begin
-                    `uvm_info("MATCH", $sformatf("(DETECT UNDERFLOW) %s\n%m", tr.sprint()), UVM_MEDIUM);
+                if (tr.empty == 1) begin
+                    `uvm_info("MATCH", $sformatf("(DETECT EMPTY) %s\n%m", tr.sprint()), UVM_MEDIUM);
                 end
                 else begin
-                    `uvm_error("MISMATCH", $sformatf("(DETECT UNDERFLOW) %s\n%m", tr.sprint()));
+                    `uvm_error("MISMATCH", $sformatf("(DETECT EMPTY) %s\n%m", tr.sprint()));
                 end
             end
             else begin
@@ -69,23 +69,24 @@ class fifo_scoreboard extends uvm_scoreboard;
                     `uvm_info("MATCH", $sformatf("(READ) %s\n%m", tr.sprint()), UVM_MEDIUM);
                 end
                 else begin
-                    `uvm_error("MISMATCH", $sformatf("(READ) %s\n%m", tr.sprint()));
+                    `uvm_error("MISMATCH", $sformatf("(READ) output=%h, expect[%0d]=%h \n%m", tr.dout, count_read, write_mem[count_read]));
                 end
                 count_read++;
             end
         end
-        if (!tr.wr_n) begin    // Assert to write
-            if (count_write >= count_read+16) begin    // overflow occur
+        else if (!tr.wr_n) begin    // Assert to write
+            if (count_write == count_read+16) begin    // overflow occur
                 `uvm_info("TOTAL_COMPARE", {"\n", tr.sprint()}, UVM_MEDIUM);
-                if (tr.over_flow == 1) begin
-                    `uvm_info("MATCH", $sformatf("(DETECT OVERFLOW) %s\n%m", tr.sprint()), UVM_MEDIUM);
+                if (tr.full == 1) begin
+                    `uvm_info("MATCH", $sformatf("(DETECT FULL) %s\n%m", tr.sprint()), UVM_MEDIUM);
                 end
                 else begin
-                    `uvm_error("MISMATCH", $sformatf("(DETECT OVERFLOW) %s\n%m", tr.sprint()));
+                    `uvm_error("MISMATCH", $sformatf("(DETECT FULL) %s\n%m", tr.sprint()));
                 end
             end
             else begin
                 write_mem[count_write] = tr.din;
+                `uvm_info("WRITE_DATA", $sformatf("write_mem[%0d] = %h\n%m", count_write, write_mem[count_write]), UVM_MEDIUM);
                 count_write++;
             end
         end

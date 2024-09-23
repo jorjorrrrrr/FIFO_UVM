@@ -34,21 +34,20 @@ class fifo_monitor extends uvm_monitor;
         tr = fifo_item::type_id::create("tr", this);
             
         `uvm_info("TRACE", $sformatf("%m"), UVM_HIGH);
-        @(vif.cb);  // for reset
-        //wait (vif.wr_n == 0 || vif.rd_n == 0);
+        repeat(8) @(vif.cb);  // for reset
         forever begin
             tr.din  = vif.din;
             tr.wr_n = vif.wr_n;
             tr.rd_n = vif.rd_n;
             tr.dout = vif.dout;
-            tr.under_flow = vif.under_flow;
-            tr.over_flow = vif.over_flow;
-            @(vif.cb);
+            tr.empty = vif.empty;
+            tr.full  = vif.full;
             
+            @(vif.cb);
             if (tr.rd_n == 0) begin
                 `uvm_info("READ_DATA", {"\n", tr.sprint()}, UVM_MEDIUM);
             end
-            if (tr.wr_n == 0) begin
+            else if (tr.wr_n == 0) begin
                 `uvm_info("SEND_DATA", {"\n", tr.sprint()}, UVM_MEDIUM);
             end
             analysis_port.write(tr);

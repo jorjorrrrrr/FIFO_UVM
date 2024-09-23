@@ -25,7 +25,7 @@ class fifo_driver extends uvm_driver #(fifo_item);
 
     virtual task run_phase(uvm_phase phase);
         `uvm_info("TRACE", $sformatf("%m"), UVM_HIGH);
-        @(vif.cb); // for reset
+        repeat(8) @(vif.cb); // for reset
         forever begin
             seq_item_port.get_next_item(req);
             drive(req);
@@ -38,10 +38,10 @@ class fifo_driver extends uvm_driver #(fifo_item);
         vif.cb.wr_n <= tr.wr_n;
         vif.cb.rd_n <= tr.rd_n;
         vif.cb.din  <= tr.din;
-        @(vif.cb);
         tr.dout = vif.dout;
-        tr.over_flow = vif.over_flow;
-        tr.under_flow = vif.under_flow;
+        tr.full = vif.full;
+        tr.empty = vif.empty;
+        @(vif.cb);
     endtask: drive
 
 endclass: fifo_driver

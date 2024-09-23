@@ -5,8 +5,8 @@ interface fifo_io(input bit clk);
     logic       rd_n; 
     logic [7:0] din;      
     logic [7:0] dout;      
-    logic       under_flow;
-    logic       over_flow;
+    logic       full;
+    logic       empty;
 
     clocking cb @(posedge clk);
         default input #1ns output #1ns;
@@ -15,8 +15,8 @@ interface fifo_io(input bit clk);
         output rd_n; 
         output din;      
         input  dout;      
-        input  under_flow;
-        input  over_flow;
+        input  full;
+        input  empty;
     endclocking
 
     modport TB(clocking cb, output rst_n);
